@@ -1,0 +1,6 @@
+ecowitt-prom
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
