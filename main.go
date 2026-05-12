@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"log"
 	"os"
 
 	"github.com/timlevett/ecowitt-prom/internal/server"
@@ -22,7 +23,7 @@ func main() {
 	)
 
 	if err := srv.ListenAndServe(); err != nil {
-		os.Exit(1)
+		log.Fatalf("server error: %v", err)
 	}
 }
 
