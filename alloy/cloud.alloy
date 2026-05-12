@@ -1,0 +1,15 @@
+prometheus.scrape "ecowitt" {
+  targets = [{"__address__" = "ecowitt-prom:8080"}]
+  scrape_interval = "60s"
+  forward_to = [prometheus.remote_write.grafana_cloud.receiver]
+}
+
+prometheus.remote_write "grafana_cloud" {
+  endpoint {
+    url = env("GRAFANA_REMOTE_WRITE_URL")
+    basic_auth {
+      username = env("GRAFANA_USERNAME")
+      password = env("GRAFANA_PASSWORD")
+    }
+  }
+}
