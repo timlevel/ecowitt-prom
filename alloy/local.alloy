@@ -1,0 +1,11 @@
+prometheus.scrape "ecowitt" {
+  targets = [{"__address__" = "ecowitt-prom:8080"}]
+  scrape_interval = "60s"
+  forward_to = [prometheus.remote_write.local.receiver]
+}
+
+prometheus.remote_write "local" {
+  endpoint {
+    url = "http://prometheus:9090/api/v1/write"
+  }
+}

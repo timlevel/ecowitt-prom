@@ -1,0 +1,36 @@
+services:
+  ecowitt-prom:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - LISTEN_ADDR=:8080
+    restart: unless-stopped
+
+  alloy:
+    image: grafana/alloy:latest
+    volumes:
+      - ./alloy:/etc/alloy
+    command: run /etc/alloy/${ALLOY_CONFIG:-local.alloy}
+    environment:
+      - GRAFANA_REMOTE_WRITE_URL=${GRAFANA_REMOTE_WRITE_URL:-}
+      - GRAFANA_USERNAME=${GRAFANA_USERNAME:-}
+      - GRAFANA_PASSWORD=${GRAFANA_PASSWORD:-}
+    ports:
+      - "12345:12345"
+    depends_on:
+      - ecowitt-prom
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-remote-write-receiver
+    ports:
+      - "9090:9090"
+    profiles:
+      - local
+    restart: unless-stopped
