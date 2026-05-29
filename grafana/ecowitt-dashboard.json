@@ -13,7 +13,7 @@
       "from": "now-24h",
       "to": "now"
     },
-    "schemaVersion": 39,
+    "schemaVersion": 40,
     "panels": [
       {
         "id": 1,
@@ -164,20 +164,7 @@
             "editorMode": "code"
           }
         ],
-        "transformations": [
-          {
-            "id": "reduce",
-            "options": {
-              "reducers": [
-                "lastNotNull"
-              ]
-            }
-          },
-          {
-            "id": "merge",
-            "options": {}
-          }
-        ],
+        "transformations": [],
         "options": {
           "inlineEditing": false,
           "panZoom": false,
@@ -1277,20 +1264,7 @@
             "editorMode": "code"
           }
         ],
-        "transformations": [
-          {
-            "id": "reduce",
-            "options": {
-              "reducers": [
-                "lastNotNull"
-              ]
-            }
-          },
-          {
-            "id": "merge",
-            "options": {}
-          }
-        ],
+        "transformations": [],
         "options": {
           "inlineEditing": false,
           "panZoom": false,

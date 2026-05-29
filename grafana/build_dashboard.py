@@ -87,10 +87,7 @@ def canvas_panel(pid, title, y, targets, elements):
         "gridPos": {"h": 14, "w": 24, "x": 0, "y": y},
         "datasource": DS,
         "targets": targets,
-        "transformations": [
-            {"id": "reduce", "options": {"reducers": ["lastNotNull"]}},
-            {"id": "merge", "options": {}},
-        ],
+        "transformations": [],
         "options": {
             "inlineEditing": False,
             "panZoom": False,
@@ -308,7 +305,7 @@ dashboard = {
     "timezone": "browser",
     "refresh": "60s",
     "time": {"from": "now-24h", "to": "now"},
-    "schemaVersion": 39,
+    "schemaVersion": 40,
     "panels": [
         row_panel(1, "🌤  Outdoor", y=0),
         outdoor_canvas,
