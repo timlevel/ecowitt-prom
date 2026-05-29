@@ -1,0 +1,2240 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "ecowitt-weather",
+    "title": "Ecowitt Weather Station",
+    "tags": [
+      "ecowitt",
+      "weather"
+    ],
+    "timezone": "browser",
+    "refresh": "60s",
+    "time": {
+      "from": "now-24h",
+      "to": "now"
+    },
+    "schemaVersion": 39,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "\ud83c\udf24  Outdoor",
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "collapsed": false,
+        "panels": []
+      },
+      {
+        "id": 2,
+        "type": "canvas",
+        "title": "Outdoor Conditions",
+        "gridPos": {
+          "h": 14,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_temperature_celsius{location=\"outdoor\"}",
+            "legendFormat": "out_temp",
+            "instant": true,
+            "range": false,
+            "refId": "A",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_humidity_percent{location=\"outdoor\"}",
+            "legendFormat": "out_hum",
+            "instant": true,
+            "range": false,
+            "refId": "B",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_wind_speed_kph",
+            "legendFormat": "wind_speed",
+            "instant": true,
+            "range": false,
+            "refId": "C",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_wind_gust_kph",
+            "legendFormat": "wind_gust",
+            "instant": true,
+            "range": false,
+            "refId": "D",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_wind_direction_degrees",
+            "legendFormat": "wind_dir",
+            "instant": true,
+            "range": false,
+            "refId": "E",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_pressure_hpa{type=\"relative\"}",
+            "legendFormat": "pres_rel",
+            "instant": true,
+            "range": false,
+            "refId": "F",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_pressure_hpa{type=\"absolute\"}",
+            "legendFormat": "pres_abs",
+            "instant": true,
+            "range": false,
+            "refId": "G",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_solar_radiation_wm2",
+            "legendFormat": "solar",
+            "instant": true,
+            "range": false,
+            "refId": "H",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_uv_index",
+            "legendFormat": "uv",
+            "instant": true,
+            "range": false,
+            "refId": "I",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_rain_rate_mm_per_hour",
+            "legendFormat": "rain_rate",
+            "instant": true,
+            "range": false,
+            "refId": "J",
+            "editorMode": "code"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "reduce",
+            "options": {
+              "reducers": [
+                "lastNotNull"
+              ]
+            }
+          },
+          {
+            "id": "merge",
+            "options": {}
+          }
+        ],
+        "options": {
+          "inlineEditing": false,
+          "panZoom": false,
+          "showAdvancedTypes": true,
+          "root": {
+            "border": "Dark Lines",
+            "layout": {
+              "kind": "free-layout"
+            },
+            "name": "Outdoor Conditions",
+            "type": "frame",
+            "elements": [
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "OUTDOOR TEMP"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_otemp",
+                "placement": {
+                  "left": 20,
+                  "top": 8,
+                  "width": 160,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#74c1e8"
+                  },
+                  "size": 42,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "celsius"
+                },
+                "connections": [],
+                "data": {
+                  "field": "out_temp",
+                  "source": "data"
+                },
+                "name": "val_otemp",
+                "placement": {
+                  "left": 20,
+                  "top": 32,
+                  "width": 160,
+                  "height": 65
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "HUMIDITY"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_ohum",
+                "placement": {
+                  "left": 200,
+                  "top": 8,
+                  "width": 110,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#74c8c8"
+                  },
+                  "size": 36,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "percent"
+                },
+                "connections": [],
+                "data": {
+                  "field": "out_hum",
+                  "source": "data"
+                },
+                "name": "val_ohum",
+                "placement": {
+                  "left": 200,
+                  "top": 32,
+                  "width": 110,
+                  "height": 65
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "WIND"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_wspd",
+                "placement": {
+                  "left": 350,
+                  "top": 8,
+                  "width": 110,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#e8d074"
+                  },
+                  "size": 34,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "velocitykmh"
+                },
+                "connections": [],
+                "data": {
+                  "field": "wind_speed",
+                  "source": "data"
+                },
+                "name": "val_wspd",
+                "placement": {
+                  "left": 350,
+                  "top": 32,
+                  "width": 110,
+                  "height": 65
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "GUST"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_wgst",
+                "placement": {
+                  "left": 480,
+                  "top": 8,
+                  "width": 100,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#e8b074"
+                  },
+                  "size": 30,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "velocitykmh"
+                },
+                "connections": [],
+                "data": {
+                  "field": "wind_gust",
+                  "source": "data"
+                },
+                "name": "val_wgst",
+                "placement": {
+                  "left": 480,
+                  "top": 32,
+                  "width": 100,
+                  "height": 65
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "DIRECTION"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_wdir",
+                "placement": {
+                  "left": 600,
+                  "top": 8,
+                  "width": 90,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#c8c8c8"
+                  },
+                  "size": 28,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "degree"
+                },
+                "connections": [],
+                "data": {
+                  "field": "wind_dir",
+                  "source": "data"
+                },
+                "name": "val_wdir",
+                "placement": {
+                  "left": 600,
+                  "top": 32,
+                  "width": 90,
+                  "height": 65
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "REL PRESSURE"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_prel",
+                "placement": {
+                  "left": 20,
+                  "top": 115,
+                  "width": 150,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#c8e8a0"
+                  },
+                  "size": 28,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "pressurehpa"
+                },
+                "connections": [],
+                "data": {
+                  "field": "pres_rel",
+                  "source": "data"
+                },
+                "name": "val_prel",
+                "placement": {
+                  "left": 20,
+                  "top": 140,
+                  "width": 150,
+                  "height": 55
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "ABS PRESSURE"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_pabs",
+                "placement": {
+                  "left": 190,
+                  "top": 115,
+                  "width": 150,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0c8a0"
+                  },
+                  "size": 28,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "pressurehpa"
+                },
+                "connections": [],
+                "data": {
+                  "field": "pres_abs",
+                  "source": "data"
+                },
+                "name": "val_pabs",
+                "placement": {
+                  "left": 190,
+                  "top": 140,
+                  "width": 150,
+                  "height": 55
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "SOLAR"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_sol",
+                "placement": {
+                  "left": 350,
+                  "top": 115,
+                  "width": 110,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#f5d76e"
+                  },
+                  "size": 28,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "watt_per_meterM2"
+                },
+                "connections": [],
+                "data": {
+                  "field": "solar",
+                  "source": "data"
+                },
+                "name": "val_sol",
+                "placement": {
+                  "left": 350,
+                  "top": 140,
+                  "width": 110,
+                  "height": 55
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "UV INDEX"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_uv",
+                "placement": {
+                  "left": 480,
+                  "top": 115,
+                  "width": 90,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#f5a623"
+                  },
+                  "size": 32,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": ""
+                },
+                "connections": [],
+                "data": {
+                  "field": "uv",
+                  "source": "data"
+                },
+                "name": "val_uv",
+                "placement": {
+                  "left": 480,
+                  "top": 140,
+                  "width": 90,
+                  "height": 55
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "RAIN RATE"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_rain",
+                "placement": {
+                  "left": 20,
+                  "top": 215,
+                  "width": 130,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#74a8e8"
+                  },
+                  "size": 24,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "lengthmm"
+                },
+                "connections": [],
+                "data": {
+                  "field": "rain_rate",
+                  "source": "data"
+                },
+                "name": "val_rain",
+                "placement": {
+                  "left": 20,
+                  "top": 240,
+                  "width": 130,
+                  "height": 45
+                },
+                "type": "metric-value"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": 3,
+        "type": "timeseries",
+        "title": "Outdoor Temperature",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 15
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_temperature_celsius{location=\"outdoor\"}",
+            "legendFormat": "Outdoor",
+            "instant": false,
+            "range": true,
+            "refId": "A",
+            "editorMode": "code"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "celsius",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          }
+        },
+        "options": {
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "type": "timeseries",
+        "title": "Outdoor Humidity",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 15
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_humidity_percent{location=\"outdoor\"}",
+            "legendFormat": "Outdoor",
+            "instant": false,
+            "range": true,
+            "refId": "A",
+            "editorMode": "code"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          }
+        },
+        "options": {
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        }
+      },
+      {
+        "id": 5,
+        "type": "timeseries",
+        "title": "Barometric Pressure",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 23
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_pressure_hpa{type=\"relative\"}",
+            "legendFormat": "Relative",
+            "instant": false,
+            "range": true,
+            "refId": "A",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_pressure_hpa{type=\"absolute\"}",
+            "legendFormat": "Absolute",
+            "instant": false,
+            "range": true,
+            "refId": "B",
+            "editorMode": "code"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "pressurehpa",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          }
+        },
+        "options": {
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        }
+      },
+      {
+        "id": 6,
+        "type": "timeseries",
+        "title": "Wind Speed & Gust",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 23
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_wind_speed_kph",
+            "legendFormat": "Speed",
+            "instant": false,
+            "range": true,
+            "refId": "A",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_wind_gust_kph",
+            "legendFormat": "Gust",
+            "instant": false,
+            "range": true,
+            "refId": "B",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_max_daily_gust_kph",
+            "legendFormat": "Max Daily Gust",
+            "instant": false,
+            "range": true,
+            "refId": "C",
+            "editorMode": "code"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "velocitykmh",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          }
+        },
+        "options": {
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        }
+      },
+      {
+        "id": 7,
+        "type": "timeseries",
+        "title": "Rain Accumulation",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 31
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_rain_mm{period=\"hourly\"}",
+            "legendFormat": "Hourly",
+            "instant": false,
+            "range": true,
+            "refId": "A",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_rain_mm{period=\"daily\"}",
+            "legendFormat": "Daily",
+            "instant": false,
+            "range": true,
+            "refId": "B",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_rain_mm{period=\"weekly\"}",
+            "legendFormat": "Weekly",
+            "instant": false,
+            "range": true,
+            "refId": "C",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_rain_mm{period=\"monthly\"}",
+            "legendFormat": "Monthly",
+            "instant": false,
+            "range": true,
+            "refId": "D",
+            "editorMode": "code"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "lengthmm",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          }
+        },
+        "options": {
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        }
+      },
+      {
+        "id": 8,
+        "type": "timeseries",
+        "title": "Solar Radiation & UV",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 31
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_solar_radiation_wm2",
+            "legendFormat": "Solar (W/m\u00b2)",
+            "instant": false,
+            "range": true,
+            "refId": "A",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_uv_index",
+            "legendFormat": "UV Index",
+            "instant": false,
+            "range": true,
+            "refId": "B",
+            "editorMode": "code"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          }
+        },
+        "options": {
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        }
+      },
+      {
+        "id": 9,
+        "type": "row",
+        "title": "\ud83c\udfe0  Indoor",
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 39
+        },
+        "collapsed": false,
+        "panels": []
+      },
+      {
+        "id": 10,
+        "type": "canvas",
+        "title": "Indoor Conditions",
+        "gridPos": {
+          "h": 14,
+          "w": 24,
+          "x": 0,
+          "y": 40
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_temperature_celsius{location=\"indoor\"}",
+            "legendFormat": "in_temp",
+            "instant": true,
+            "range": false,
+            "refId": "A",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_humidity_percent{location=\"indoor\"}",
+            "legendFormat": "in_hum",
+            "instant": true,
+            "range": false,
+            "refId": "B",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_temperature_celsius{location=\"ch1\"}",
+            "legendFormat": "ch1_temp",
+            "instant": true,
+            "range": false,
+            "refId": "C",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_humidity_percent{location=\"ch1\"}",
+            "legendFormat": "ch1_hum",
+            "instant": true,
+            "range": false,
+            "refId": "D",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_temperature_celsius{location=\"ch2\"}",
+            "legendFormat": "ch2_temp",
+            "instant": true,
+            "range": false,
+            "refId": "E",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_humidity_percent{location=\"ch2\"}",
+            "legendFormat": "ch2_hum",
+            "instant": true,
+            "range": false,
+            "refId": "F",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_temperature_celsius{location=\"ch3\"}",
+            "legendFormat": "ch3_temp",
+            "instant": true,
+            "range": false,
+            "refId": "G",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_humidity_percent{location=\"ch3\"}",
+            "legendFormat": "ch3_hum",
+            "instant": true,
+            "range": false,
+            "refId": "H",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_battery{sensor=\"wh65batt\"}",
+            "legendFormat": "batt_wh65",
+            "instant": true,
+            "range": false,
+            "refId": "I",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_battery{sensor=\"ch1\"}",
+            "legendFormat": "batt_ch1",
+            "instant": true,
+            "range": false,
+            "refId": "J",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_battery{sensor=\"ch2\"}",
+            "legendFormat": "batt_ch2",
+            "instant": true,
+            "range": false,
+            "refId": "K",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_battery{sensor=\"ch3\"}",
+            "legendFormat": "batt_ch3",
+            "instant": true,
+            "range": false,
+            "refId": "L",
+            "editorMode": "code"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "reduce",
+            "options": {
+              "reducers": [
+                "lastNotNull"
+              ]
+            }
+          },
+          {
+            "id": "merge",
+            "options": {}
+          }
+        ],
+        "options": {
+          "inlineEditing": false,
+          "panZoom": false,
+          "showAdvancedTypes": true,
+          "root": {
+            "border": "Dark Lines",
+            "layout": {
+              "kind": "free-layout"
+            },
+            "name": "Indoor Conditions",
+            "type": "frame",
+            "elements": [
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "INDOOR TEMP"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_itemp",
+                "placement": {
+                  "left": 20,
+                  "top": 8,
+                  "width": 150,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#e87474"
+                  },
+                  "size": 42,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "celsius"
+                },
+                "connections": [],
+                "data": {
+                  "field": "in_temp",
+                  "source": "data"
+                },
+                "name": "val_itemp",
+                "placement": {
+                  "left": 20,
+                  "top": 32,
+                  "width": 150,
+                  "height": 65
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "HUMIDITY"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_ihum",
+                "placement": {
+                  "left": 190,
+                  "top": 8,
+                  "width": 110,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#e8a074"
+                  },
+                  "size": 36,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "percent"
+                },
+                "connections": [],
+                "data": {
+                  "field": "in_hum",
+                  "source": "data"
+                },
+                "name": "val_ihum",
+                "placement": {
+                  "left": 190,
+                  "top": 32,
+                  "width": 110,
+                  "height": 65
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "CHANNEL SENSORS"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_ch",
+                "placement": {
+                  "left": 360,
+                  "top": 8,
+                  "width": 300,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 10,
+                  "text": {
+                    "fixed": "Ch1 Temp"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_ch1t",
+                "placement": {
+                  "left": 360,
+                  "top": 35,
+                  "width": 80,
+                  "height": 20
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#e8c8a0"
+                  },
+                  "size": 22,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "celsius"
+                },
+                "connections": [],
+                "data": {
+                  "field": "ch1_temp",
+                  "source": "data"
+                },
+                "name": "val_ch1t",
+                "placement": {
+                  "left": 360,
+                  "top": 57,
+                  "width": 80,
+                  "height": 45
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 10,
+                  "text": {
+                    "fixed": "Ch1 Hum"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_ch1h",
+                "placement": {
+                  "left": 460,
+                  "top": 35,
+                  "width": 80,
+                  "height": 20
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0c8e8"
+                  },
+                  "size": 22,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "percent"
+                },
+                "connections": [],
+                "data": {
+                  "field": "ch1_hum",
+                  "source": "data"
+                },
+                "name": "val_ch1h",
+                "placement": {
+                  "left": 460,
+                  "top": 57,
+                  "width": 80,
+                  "height": 45
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 10,
+                  "text": {
+                    "fixed": "Ch2 Temp"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_ch2t",
+                "placement": {
+                  "left": 360,
+                  "top": 112,
+                  "width": 80,
+                  "height": 20
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#e8c8a0"
+                  },
+                  "size": 22,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "celsius"
+                },
+                "connections": [],
+                "data": {
+                  "field": "ch2_temp",
+                  "source": "data"
+                },
+                "name": "val_ch2t",
+                "placement": {
+                  "left": 360,
+                  "top": 134,
+                  "width": 80,
+                  "height": 45
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 10,
+                  "text": {
+                    "fixed": "Ch2 Hum"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_ch2h",
+                "placement": {
+                  "left": 460,
+                  "top": 112,
+                  "width": 80,
+                  "height": 20
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0c8e8"
+                  },
+                  "size": 22,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "percent"
+                },
+                "connections": [],
+                "data": {
+                  "field": "ch2_hum",
+                  "source": "data"
+                },
+                "name": "val_ch2h",
+                "placement": {
+                  "left": 460,
+                  "top": 134,
+                  "width": 80,
+                  "height": 45
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 10,
+                  "text": {
+                    "fixed": "Ch3 Temp"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_ch3t",
+                "placement": {
+                  "left": 360,
+                  "top": 189,
+                  "width": 80,
+                  "height": 20
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#e8c8a0"
+                  },
+                  "size": 22,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "celsius"
+                },
+                "connections": [],
+                "data": {
+                  "field": "ch3_temp",
+                  "source": "data"
+                },
+                "name": "val_ch3t",
+                "placement": {
+                  "left": 360,
+                  "top": 211,
+                  "width": 80,
+                  "height": 45
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 10,
+                  "text": {
+                    "fixed": "Ch3 Hum"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_ch3h",
+                "placement": {
+                  "left": 460,
+                  "top": 189,
+                  "width": 80,
+                  "height": 20
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0c8e8"
+                  },
+                  "size": 22,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": "percent"
+                },
+                "connections": [],
+                "data": {
+                  "field": "ch3_hum",
+                  "source": "data"
+                },
+                "name": "val_ch3h",
+                "placement": {
+                  "left": 460,
+                  "top": 211,
+                  "width": 80,
+                  "height": 45
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 11,
+                  "text": {
+                    "fixed": "BATTERIES"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_batt",
+                "placement": {
+                  "left": 20,
+                  "top": 120,
+                  "width": 300,
+                  "height": 22
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 10,
+                  "text": {
+                    "fixed": "WH65"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_bwh",
+                "placement": {
+                  "left": 20,
+                  "top": 148,
+                  "width": 60,
+                  "height": 18
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0e8a0"
+                  },
+                  "size": 18,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": ""
+                },
+                "connections": [],
+                "data": {
+                  "field": "batt_wh65",
+                  "source": "data"
+                },
+                "name": "val_bwh",
+                "placement": {
+                  "left": 20,
+                  "top": 168,
+                  "width": 60,
+                  "height": 35
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 10,
+                  "text": {
+                    "fixed": "Ch1"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_bc1",
+                "placement": {
+                  "left": 100,
+                  "top": 148,
+                  "width": 50,
+                  "height": 18
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0e8a0"
+                  },
+                  "size": 18,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": ""
+                },
+                "connections": [],
+                "data": {
+                  "field": "batt_ch1",
+                  "source": "data"
+                },
+                "name": "val_bc1",
+                "placement": {
+                  "left": 100,
+                  "top": 168,
+                  "width": 50,
+                  "height": 35
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 10,
+                  "text": {
+                    "fixed": "Ch2"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_bc2",
+                "placement": {
+                  "left": 165,
+                  "top": 148,
+                  "width": 50,
+                  "height": 18
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0e8a0"
+                  },
+                  "size": 18,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": ""
+                },
+                "connections": [],
+                "data": {
+                  "field": "batt_ch2",
+                  "source": "data"
+                },
+                "name": "val_bc2",
+                "placement": {
+                  "left": 165,
+                  "top": 168,
+                  "width": 50,
+                  "height": 35
+                },
+                "type": "metric-value"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0a0a0"
+                  },
+                  "size": 10,
+                  "text": {
+                    "fixed": "Ch3"
+                  }
+                },
+                "connections": [],
+                "data": {
+                  "source": "fixed"
+                },
+                "name": "lbl_bc3",
+                "placement": {
+                  "left": 230,
+                  "top": 148,
+                  "width": 50,
+                  "height": 18
+                },
+                "type": "text"
+              },
+              {
+                "config": {
+                  "align": "center",
+                  "valign": "middle",
+                  "color": {
+                    "fixed": "#a0e8a0"
+                  },
+                  "size": 18,
+                  "text": {
+                    "fixed": ""
+                  },
+                  "unit": ""
+                },
+                "connections": [],
+                "data": {
+                  "field": "batt_ch3",
+                  "source": "data"
+                },
+                "name": "val_bc3",
+                "placement": {
+                  "left": 230,
+                  "top": 168,
+                  "width": 50,
+                  "height": 35
+                },
+                "type": "metric-value"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": 11,
+        "type": "timeseries",
+        "title": "Indoor Temperature",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 54
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_temperature_celsius{location=\"indoor\"}",
+            "legendFormat": "Indoor",
+            "instant": false,
+            "range": true,
+            "refId": "A",
+            "editorMode": "code"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "celsius",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          }
+        },
+        "options": {
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        }
+      },
+      {
+        "id": 12,
+        "type": "timeseries",
+        "title": "Indoor Humidity",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 54
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_humidity_percent{location=\"indoor\"}",
+            "legendFormat": "Indoor",
+            "instant": false,
+            "range": true,
+            "refId": "A",
+            "editorMode": "code"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          }
+        },
+        "options": {
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        }
+      },
+      {
+        "id": 13,
+        "type": "timeseries",
+        "title": "Channel Temperatures",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 62
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_temperature_celsius{location=\"ch1\"}",
+            "legendFormat": "Ch1",
+            "instant": false,
+            "range": true,
+            "refId": "A",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_temperature_celsius{location=\"ch2\"}",
+            "legendFormat": "Ch2",
+            "instant": false,
+            "range": true,
+            "refId": "B",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_temperature_celsius{location=\"ch3\"}",
+            "legendFormat": "Ch3",
+            "instant": false,
+            "range": true,
+            "refId": "C",
+            "editorMode": "code"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "celsius",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          }
+        },
+        "options": {
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        }
+      },
+      {
+        "id": 14,
+        "type": "timeseries",
+        "title": "Channel Humidity",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 62
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_humidity_percent{location=\"ch1\"}",
+            "legendFormat": "Ch1",
+            "instant": false,
+            "range": true,
+            "refId": "A",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_humidity_percent{location=\"ch2\"}",
+            "legendFormat": "Ch2",
+            "instant": false,
+            "range": true,
+            "refId": "B",
+            "editorMode": "code"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "expr": "ecowitt_humidity_percent{location=\"ch3\"}",
+            "legendFormat": "Ch3",
+            "instant": false,
+            "range": true,
+            "refId": "C",
+            "editorMode": "code"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          }
+        },
+        "options": {
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom"
+          }
+        }
+      }
+    ]
+  },
+  "overwrite": true,
+  "folderId": 0
+}
