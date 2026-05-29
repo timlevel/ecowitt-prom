@@ -3,6 +3,7 @@ package server
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -78,7 +79,21 @@ func (s *Server) ListenAndServe() error {
 	log.Printf("  GET  %s (metrics endpoint)", s.metricsPath)
 	log.Printf("  GET  /healthz (health check)")
 
-	return http.ListenAndServe(s.addr, mux)
+	srv := &http.Server{
+		Addr:         s.addr,
+		Handler:      mux,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  60 * time.Second,
+	}
+	return srv.ListenAndServe()
+}
+
+func maskPasskey(pk string) string {
+	if len(pk) <= 4 {
+		return "****"
+	}
+	return pk[:4] + "****"
 }
 
 func (s *Server) handleData(w http.ResponseWriter, r *http.Request) {
@@ -95,7 +110,7 @@ func (s *Server) handleData(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if s.passkey != "" && data.Passkey != s.passkey {
-		log.Printf("rejecting data from unknown passkey: %s", data.Passkey)
+		log.Printf("rejecting data from unknown passkey: %s", maskPasskey(data.Passkey))
 		http.Error(w, "forbidden", http.StatusForbidden)
 		return
 	}
@@ -103,7 +118,7 @@ func (s *Server) handleData(w http.ResponseWriter, r *http.Request) {
 	s.exporter.Update(data)
 
 	log.Printf("received data from %s (%s): outdoor=%.1fF humidity=%.0f%% wind=%.1fmph",
-		data.Passkey, data.StationType, data.TempOutdoorF, data.HumidityOutdoor, data.WindSpeedMPH)
+		maskPasskey(data.Passkey), data.StationType, data.TempOutdoorF, data.HumidityOutdoor, data.WindSpeedMPH)
 
 	w.WriteHeader(http.StatusNoContent)
 }
