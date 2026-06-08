@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Build binaries
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          LDFLAGS="-s -w -X main.version=${VERSION}"
+
+          build() {
+            local os=$1 arch=$2
+            local out="ecowitt-prom_${os}_${arch}"
+            [ "$os" = "windows" ] && out="${out}.exe"
+            GOOS=$os GOARCH=$arch go build -ldflags="$LDFLAGS" -o "dist/${out}" .
+          }
+
+          mkdir -p dist
+          build linux  amd64
+          build linux  arm64
+          build darwin amd64
+          build darwin arm64
+          build windows amd64
+
+          cd dist && sha256sum * > checksums.txt
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*
