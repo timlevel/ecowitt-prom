@@ -93,6 +93,7 @@ func TestParseChannelSensors(t *testing.T) {
 	form := url.Values{}
 	form.Set("PASSKEY", "abc123")
 	form.Set("stationtype", "GW2000A_V2.1.4")
+	form.Set("model", "GW2000A_V2.1.4")
 	form.Set("dateutc", "2022-04-20 19:14:47")
 	form.Set("temp1f", "71.2")
 	form.Set("humidity1", "61")
@@ -165,5 +166,89 @@ func TestHasField(t *testing.T) {
 	}
 	if HasField(data, "winddir") {
 		t.Error("HasField(winddir) = true, want false")
+	}
+}
+
+func TestSanitizeLabelValue(t *testing.T) {
+	tests := []struct {
+		input string
+		want  string
+	}{
+		{"EasyWeatherV1.5.9", "EasyWeatherV1.5.9"},
+		{"WS2900_V2.01.13", "WS2900_V2.01.13"},
+		{"normal-value.html", "normal-value.html"},
+		{"has spaces", "has_spaces"},
+		{"a/b\\c:d", "a_b_c_d"},
+		{"<script>alert(1)</script>", "_script_alert_1___script_"},
+		{"", ""},
+	}
+	for _, tt := range tests {
+		got := SanitizeLabelValue(tt.input)
+		if got != tt.want {
+			t.Errorf("SanitizeLabelValue(%q) = %q, want %q", tt.input, got, tt.want)
+		}
+	}
+
+	long := strings.Repeat("a", 100)
+	got := SanitizeLabelValue(long)
+	if len(got) != 64 {
+		t.Errorf("SanitizeLabelValue truncation: got len %d, want 64", len(got))
+	}
+}
+
+func TestValidateLabelValue(t *testing.T) {
+	if !ValidateLabelValue("EasyWeatherV1.5.9") {
+		t.Error("valid label rejected")
+	}
+	if !ValidateLabelValue("WS2900_V2.01.13") {
+		t.Error("valid label rejected")
+	}
+	if ValidateLabelValue("has spaces") {
+		t.Error("label with spaces should be invalid")
+	}
+	if ValidateLabelValue("<script>") {
+		t.Error("label with angle brackets should be invalid")
+	}
+	if ValidateLabelValue("") {
+		t.Error("empty label should be invalid")
+	}
+	if ValidateLabelValue(strings.Repeat("a", 65)) {
+		t.Error("label over 64 chars should be invalid")
+	}
+}
+
+func TestParseRejectsMissingStationType(t *testing.T) {
+	form := url.Values{}
+	form.Set("PASSKEY", "abc123")
+	form.Set("model", "WS2900_V2.01.13")
+
+	req := &http.Request{
+		Method: http.MethodPost,
+		Header: http.Header{"Content-Type": []string{"application/x-www-form-urlencoded"}},
+		Body:   io.NopCloser(strings.NewReader(form.Encode())),
+	}
+	req = req.WithContext(req.Context())
+
+	_, err := Parse(req)
+	if err == nil {
+		t.Error("expected error for missing stationtype")
+	}
+}
+
+func TestParseRejectsMissingModel(t *testing.T) {
+	form := url.Values{}
+	form.Set("PASSKEY", "abc123")
+	form.Set("stationtype", "EasyWeatherV1.5.9")
+
+	req := &http.Request{
+		Method: http.MethodPost,
+		Header: http.Header{"Content-Type": []string{"application/x-www-form-urlencoded"}},
+		Body:   io.NopCloser(strings.NewReader(form.Encode())),
+	}
+	req = req.WithContext(req.Context())
+
+	_, err := Parse(req)
+	if err == nil {
+		t.Error("expected error for missing model")
 	}
 }

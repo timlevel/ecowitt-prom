@@ -1,10 +1,31 @@
 package parser
 
 import (
+	"fmt"
 	"net/http"
+	"regexp"
 	"strconv"
 	"strings"
 )
+
+var labelValueRe = regexp.MustCompile(`^[a-zA-Z0-9_.\-]{1,64}$`)
+
+func SanitizeLabelValue(s string) string {
+	sanitized := strings.Map(func(r rune) rune {
+		if (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9') || r == '_' || r == '.' || r == '-' {
+			return r
+		}
+		return '_'
+	}, s)
+	if len(sanitized) > 64 {
+		sanitized = sanitized[:64]
+	}
+	return sanitized
+}
+
+func ValidateLabelValue(s string) bool {
+	return labelValueRe.MatchString(s)
+}
 
 type EcowittData struct {
 	Passkey        string
@@ -51,6 +72,8 @@ type EcowittData struct {
 }
 
 func Parse(r *http.Request) (*EcowittData, error) {
+	r.Body = http.MaxBytesReader(nil, r.Body, 1<<20)
+
 	if err := r.ParseForm(); err != nil {
 		return nil, err
 	}
@@ -72,8 +95,16 @@ func Parse(r *http.Request) (*EcowittData, error) {
 	}
 
 	data.Passkey = data.FieldsPresent["PASSKEY"]
-	data.StationType = data.FieldsPresent["stationtype"]
-	data.Model = data.FieldsPresent["model"]
+	data.StationType = SanitizeLabelValue(data.FieldsPresent["stationtype"])
+	data.Model = SanitizeLabelValue(data.FieldsPresent["model"])
+
+	if data.StationType == "" {
+		return nil, fmt.Errorf("missing or invalid stationtype")
+	}
+	if data.Model == "" {
+		return nil, fmt.Errorf("missing or invalid model")
+	}
+
 	data.DateUTC = data.FieldsPresent["dateutc"]
 	data.Freq = data.FieldsPresent["freq"]
 
