@@ -1,0 +1,19 @@
+services:
+  ecowitt-prom:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VERSION: ${VERSION:-v1.0.0}
+    container_name: ecowitt-prom
+    ports:
+      - "8080:8080"
+    environment:
+      - LISTEN_ADDR=:8080
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+networks:
+  monitoring:
+    external: true
